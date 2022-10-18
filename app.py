@@ -821,33 +821,16 @@ async def api_version():
 # -----------------------------------------------------------------------------
 
 
+
 @app.route("/")
 async def app_index():
     """Test page."""
-    return await render_template(
-        "index.html",
-        default_language=_DEFAULT_LANGUAGE,
-        cache=args.cache,
-        preferred_voices=_VOICE_ALIASES.get(_DEFAULT_LANGUAGE, []),
-    )
+    return await send_from_directory("quasar", "index.html")
 
 
-@app.route("/css/<path:filename>", methods=["GET"])
+@app.route("/assets/<path:filename>", methods=["GET"])
 async def css(filename) -> Response:
-    """CSS static endpoint."""
-    return await send_from_directory("css", filename)
-
-
-@app.route("/js/<path:filename>", methods=["GET"])
-async def js(filename) -> Response:
-    """Javascript static endpoint."""
-    return await send_from_directory("js", filename)
-
-
-@app.route("/img/<path:filename>", methods=["GET"])
-async def img(filename) -> Response:
-    """Image static endpoint."""
-    return await send_from_directory("img", filename)
+    return await send_from_directory("quasar/assets", filename)
 
 
 # Swagger UI
